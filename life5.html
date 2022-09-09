@@ -1,0 +1,112 @@
+<canvas id="life" width="500" height="500"></canvas>
+<script>
+
+    m = document.getElementById("life").getContext('2d')
+
+    //Canvas parameters
+    draw = (x, y, c, s) => {
+        m.fillStyle = c
+        m.fillRect(x, y, s, s)
+    }
+
+    //Particle parameters
+    particles = []
+    particle = (x, y, c) => {
+        return { "x": x, "y": y, "vx": 0, "vy": 0, "color": c }
+    }
+
+    //Particles positions are bounded by a certain rectangle
+    random = () => {
+        return Math.random() * 400 + 50
+    }
+
+    create = (number, color) => {
+        group = []
+        for (let i = 0; i < number; i++) {
+            group.push(particle(random(), random(), color))
+            particles.push(group[i])
+        }
+        return group
+    }
+
+    //Rule for attractions of particles
+    rule = (particles1, particles2, g) => {
+        for (let i = 0; i < particles1.length; i++) {
+            //fx and fy initialization (forces on particles for relevant directions)
+            fx = 0
+            fy = 0
+            for (let j = 0; j < particles2.length; j++) {
+                a = particles1[i]
+                b = particles2[j]
+
+                //Disctances of particles
+                dx = a.x - b.x
+                dy = a.y - b.y
+                d = Math.sqrt(dx * dx + dy * dy)
+
+                //Calculation of forces acting on the particles (Magnitude of force is parralel to force g and opposite to distance between each)
+                if (d > 0 && d < 80) {
+                    F = g * 1 / d
+                    fx += (F * dx)
+                    fy += (F * dy)
+                }
+            }
+
+            //Force and force related acceleration components
+            a.vx = (a.vx + fx) * 0.5 * 1.9
+            a.vy = (a.vy + fy) * 0.5
+            a.x += a.vx
+            a.y += a.vy
+            //Screen edge bounds
+            if (a.x <= 0 || a.x >= 500) { a.vx *= -1 }
+            if (a.y <= 0 || a.y >= 500) { a.vy *= -1 }
+        }
+
+    }
+
+    yellow = create(200, "yellow")
+    red = create(200, "red")
+    green = create(200, "green")
+    white = create(330, "white")
+
+    update = () => {
+        rule(green, green, -0.32)
+        rule(green, red, -0.34)
+        rule(green, yellow, 0.34)
+        rule(green, white, 0.15)
+
+        rule(yellow, yellow, 0.15)
+        rule(yellow, red, -0.20)
+        rule(yellow, white, 0.35)
+
+        rule(red, red, -0.30)
+        rule(red, white, 0.835)
+
+        rule(white, white, -0.12)
+
+        //g y r w
+        // gg gy gr gw yy yr yw rr rw ww
+
+        // Green controlles
+
+
+
+        // Yellow controlles
+
+
+        // Red controlles
+
+
+        // White controlles
+
+
+        m.clearRect(0, 0, 500, 500)
+        draw(0, 0, "black", 500)
+        for (i = 0; i < particles.length; i++) {
+            draw(particles[i].x, particles[i].y, particles[i].color, 5)
+        }
+        requestAnimationFrame(update)
+    }
+
+    update();
+</script>
