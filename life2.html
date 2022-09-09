@@ -3,16 +3,19 @@
 
     m = document.getElementById("life").getContext('2d')
 
+    //Canvas parameters
     draw = (x, y, c, s) => {
         m.fillStyle = c
         m.fillRect(x, y, s, s)
     }
 
+    //Particle parameters
     particles = []
     particle = (x, y, c) => {
         return { "x": x, "y": y, "vx": 0, "vy": 0, "color": c }
     }
 
+    //Particles positions are bounded by a certain rectangle
     random = () => {
         return Math.random() * 400 + 50
     }
@@ -26,23 +29,30 @@
         return group
     }
 
+    //Rule for attractions of particles
     rule = (particles1, particles2, g) => {
         for (let i = 0; i < particles1.length; i++) {
+            //fx and fy initialization (forces on particles for relevant directions)
             fx = 0
             fy = 0
             for (let j = 0; j < particles2.length; j++) {
                 a = particles1[i]
                 b = particles2[j]
 
+                //Disctances of particles
                 dx = a.x - b.x
                 dy = a.y - b.y
                 d = Math.sqrt(dx * dx + dy * dy)
+
+                //Calculation of forces acting on the particles (Magnitude of force is parralel to force g and opposite to distance between each)
                 if (d > 0) {
                     F = g * 1 / d
                     fx += (F * dx)
                     fy += (F * dy)
                 }
             }
+
+            //Acceleration components
             a.vx = (a.vx + fx)
             a.vy = (a.vy + fy)
             a.x += a.vx

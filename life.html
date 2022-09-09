@@ -3,16 +3,19 @@
 
     m = document.getElementById("life").getContext('2d')
 
+    //Canvas parameters
     draw = (x, y, c, s) => {
         m.fillStyle = c
         m.fillRect(x, y, s, s)
     }
 
+    //Particle parameters
     particles = []
     particle = (x, y, c) => {
         return { "x": x, "y": y, "vx": 0, "vy": 0, "color": c }
     }
 
+    //Particles positions are bounded by a certain rectangle
     random = () => {
         return Math.random() * 400 + 50
     }

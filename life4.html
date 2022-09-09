@@ -67,21 +67,25 @@
     yellow = create(200, "yellow")
     red = create(200, "red")
     green = create(200, "green")
-    white = create(30, "white")
+    white = create(330, "white")
 
     update = () => {
         rule(green, green, -0.32)
-        rule(green, red, -0.17)
+        rule(green, red, -0.34)
         rule(green, yellow, 0.34)
-        rule(red, red, -0.10)
-        rule(red, green, -0.34)
-        rule(yellow, yellow, 0.15)
-        rule(yellow, green, -0.20)
-        rule(white, white, 1)
-        rule(white, red, -0.35)
-        rule(white, yellow, 0.5)
-        rule(white, green, 0.85)
+        rule(green, white, 0.15)
 
+        rule(yellow, yellow, 0.15)
+        rule(yellow, red, -0.20)
+        rule(yellow, white, 0.35)
+
+        rule(red, red, -0.30)
+        rule(red, white, 0.835)
+
+        rule(white, white, -0.12)
+
+        //g y r w
+        // gg gy gr gw yy yr yw rr rw ww
 
 
 
